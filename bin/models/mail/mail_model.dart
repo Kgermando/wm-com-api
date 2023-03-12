@@ -12,7 +12,7 @@ class MailModel {
   late String emailDest;
   late DateTime dateSend;
   late DateTime dateRead;
-  late DateTime business;
+  late String business;
 
   MailModel(
       {this.id,
