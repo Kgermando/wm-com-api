@@ -14,7 +14,7 @@ class ProduitModelHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<ProductModel> data = await repos.produitModel.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

@@ -14,7 +14,7 @@ class FactureHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<FactureCartModel> data = await repos.factures.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

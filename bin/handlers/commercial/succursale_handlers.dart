@@ -56,7 +56,6 @@ class SuccursaleHandlers {
       return Response.ok(jsonEncode(data));
     });
 
-
     router.get('/<id>', (Request request, String id) async {
       late SuccursaleModel data;
       try {

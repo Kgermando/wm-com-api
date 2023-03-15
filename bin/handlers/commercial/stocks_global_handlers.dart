@@ -14,7 +14,7 @@ class StockGlobalHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<StocksGlobalMOdel> data = await repos.stocksGlobal.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

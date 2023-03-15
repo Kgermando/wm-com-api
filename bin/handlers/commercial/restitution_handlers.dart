@@ -14,7 +14,7 @@ class RestitutionHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<RestitutionModel> data = await repos.restitutions.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

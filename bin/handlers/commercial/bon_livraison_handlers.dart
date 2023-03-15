@@ -14,7 +14,7 @@ class BonLivraisonHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<BonLivraisonModel> data = await repos.bonLivraison.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

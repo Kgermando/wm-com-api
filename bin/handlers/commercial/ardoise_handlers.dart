@@ -14,7 +14,7 @@ class ArdoiseHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<ArdoiseModel> data = await repos.ardoises.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

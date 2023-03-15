@@ -14,7 +14,7 @@ class HistoryRavitaillementHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<HistoryRavitaillementModel> data =
           await repos.historyRavitaillements.getAllData(business);
       return Response.ok(jsonEncode(data));

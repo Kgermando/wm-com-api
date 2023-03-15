@@ -15,7 +15,7 @@ class AchatsHandlers {
     final router = Router();
 
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<AchatModel> data = await repos.achats.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

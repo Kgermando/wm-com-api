@@ -14,7 +14,7 @@ class NumberFactHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<NumberFactureModel> data = await repos.numberFacture.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

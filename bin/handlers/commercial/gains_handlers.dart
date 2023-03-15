@@ -15,7 +15,7 @@ class GainsHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<GainModel> data = await repos.gains.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

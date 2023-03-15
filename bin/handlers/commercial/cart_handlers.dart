@@ -15,7 +15,7 @@ class CartHandlers {
     final router = Router();
 
 
-    router.get('/<business>/<matricule>', (Request request, String business, String matricule) async {
+    router.get('/<business>/<matricule>/', (Request request, String business, String matricule) async {
       List<CartModel> data = await repos.carts.getAllData(business, matricule);
       return Response.ok(jsonEncode(data));
     });
