@@ -14,8 +14,8 @@ class UpdateHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/', (Request request) async {
-      List<UpdateModel> data = await repos.updateVersion.getAllData();
+    router.get('/<business>/', (Request request, String business) async {
+      List<UpdateModel> data = await repos.updateVersion.getAllData(business);
       return Response.ok(jsonEncode(data));
     });
 

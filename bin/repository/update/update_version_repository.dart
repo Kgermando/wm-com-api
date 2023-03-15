@@ -8,10 +8,11 @@ class UpdateVersionRepository {
 
   UpdateVersionRepository(this.executor, this.tableName);
 
-  Future<List<UpdateModel>> getAllData() async {
+  Future<List<UpdateModel>> getAllData(String business) async {
     var data = <UpdateModel>{};
 
-    var querySQL = "SELECT * FROM $tableName ORDER BY \"created\" DESC;";
+    var querySQL =
+        "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(UpdateModel.fromSQL(row));
