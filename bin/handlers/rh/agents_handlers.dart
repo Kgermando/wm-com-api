@@ -15,7 +15,7 @@ class AgentsHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<AgentModel> data = await repos.agents.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

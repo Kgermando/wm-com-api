@@ -14,7 +14,7 @@ class ArchiveHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<ArchiveModel> data = await repos.archives.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

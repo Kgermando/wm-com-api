@@ -14,7 +14,7 @@ class PaiementReservationHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<PaiementReservationModel> data =
           await repos.paiementReservationRepository.getAllData(business);
       return Response.ok(jsonEncode(data));

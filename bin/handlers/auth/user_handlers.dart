@@ -21,7 +21,7 @@ class UserHandlers {
     // });
 
     // Get all users
-    router.get('/users/<business>', (Request request, String business) async {
+    router.get('/users/<business>/', (Request request, String business) async {
       List<UserModel> data = await repos.users.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

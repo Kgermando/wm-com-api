@@ -14,7 +14,7 @@ class CaissesHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<CaisseModel> data = await repos.caisses.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

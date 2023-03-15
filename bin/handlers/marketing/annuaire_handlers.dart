@@ -14,7 +14,7 @@ class AnnuaireHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<AnnuaireModel> data = await repos.annuaires.getAllData(business);
       return Response.ok(jsonEncode(data));
     });

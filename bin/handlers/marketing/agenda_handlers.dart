@@ -14,7 +14,7 @@ class AgendaHandlers {
   Router get router {
     final router = Router();
 
-    router.get('/<business>', (Request request, String business) async {
+    router.get('/<business>/', (Request request, String business) async {
       List<AgendaModel> data = await repos.agendas.getAllData(business);
       return Response.ok(jsonEncode(data));
     });
