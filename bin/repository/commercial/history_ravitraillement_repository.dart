@@ -25,9 +25,10 @@ class HistoryRavitaillementRepository {
       await ctx.execute(
           "INSERT INTO $tableName (id, id_product, quantity,"
           "quantity_achat, price_achat_unit, prix_vente_unit, unite, marge_ben,"
-          "tva, qty_ravitailler, succursale, signature, created, business)"
+          "tva, qty_ravitailler, succursale, signature, created,"
+          "business, sync, async)"
           "VALUES (nextval('history_ravitaillements_id_seq'), @1, @2, @3, @4,"
-          "@5, @6, @7, @8, @9, @10, @11, @12, @13)",
+          "@5, @6, @7, @8, @9, @10, @11, @12, @13, @14, @15)",
           substitutionValues: {
             '1': data.idProduct,
             '2': data.quantity,
@@ -41,7 +42,9 @@ class HistoryRavitaillementRepository {
             '10': data.succursale,
             '11': data.signature,
             '12': data.created,
-            '13': data.business
+            '13': data.business,
+            '14': data.sync,
+            '15': data.async,
           });
     });
   }
@@ -52,7 +55,8 @@ class HistoryRavitaillementRepository {
           price_achat_unit = @4, prix_vente_unit = @5, unite = @6,
           marge_ben = @7, tva = @8,
           qty_ravitailler = @9, succursale = @10,
-          signature = @11, created = @12, business = @13 WHERE id = @14""",
+          signature = @11, created = @12, 
+          business = @13, sync = @14, async = @15 WHERE id = @16""",
         substitutionValues: {
           '1': data.idProduct,
           '2': data.quantity,
@@ -67,7 +71,9 @@ class HistoryRavitaillementRepository {
           '11': data.signature,
           '12': data.created,
           '13': data.business,
-          '14': data.id
+          '14': data.sync,
+          '15': data.async,
+          '16': data.id
         });
   }
 
@@ -99,7 +105,9 @@ class HistoryRavitaillementRepository {
       succursale: data[0][10],
       signature: data[0][11],
       created: data[0][12],
-      business: data[0][13]
+      business: data[0][13],
+      sync: data[0][14],
+      async: data[0][15],
     );
   } 
 }

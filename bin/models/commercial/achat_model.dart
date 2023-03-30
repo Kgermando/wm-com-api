@@ -14,6 +14,8 @@ class AchatModel {
   late String signature;
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   AchatModel(
       {this.id,
@@ -30,7 +32,10 @@ class AchatModel {
       required this.succursale,
       required this.signature,
       required this.created,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory AchatModel.fromSQL(List<dynamic> row) {
     return AchatModel(
@@ -48,7 +53,9 @@ class AchatModel {
         succursale: row[11],
         signature: row[12],
         created: row[13],
-        business: row[14]);
+        business: row[14],
+        sync: row[15],
+        async: row[16]);
   }
 
   factory AchatModel.fromJson(Map<String, dynamic> json) {
@@ -67,7 +74,10 @@ class AchatModel {
         succursale: json['succursale'],
         signature: json['signature'],
         created: DateTime.parse(json['created']),
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -86,7 +96,9 @@ class AchatModel {
       'succursale': succursale,
       'signature': signature,
       'created': created.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

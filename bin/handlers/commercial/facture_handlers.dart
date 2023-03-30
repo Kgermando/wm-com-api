@@ -42,6 +42,8 @@ class FactureHandlers {
           signature: input['signature'],
           created: DateTime.parse(input['created']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
       try {
         await repos.factures.insertData(data);
@@ -81,6 +83,12 @@ class FactureHandlers {
       }
       if (input['business'] != null) {
         data.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        data.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        data.async = input['async'];
       }
 
       repos.factures.update(data);

@@ -25,8 +25,9 @@ class CreanceFactureRepository {
       await ctx.execute(
         "INSERT INTO $tableName (id, cart, client,"
         "nom_client, telephone, addresse, delai_paiement,"
-        "succursale, signature, created, business)"
-        "VALUES (nextval('creance_factures_id_seq'), @1, @2, @3, @4, @5, @6, @7, @8, @9, @10)",
+        "succursale, signature, created, business, sync, async)"
+        "VALUES (nextval('creance_factures_id_seq'), @1, @2, @3, @4,"
+        "@5, @6, @7, @8, @9, @10, @11, @12)",
         substitutionValues: {
           '1': data.cart,
           '2': data.client,
@@ -37,7 +38,9 @@ class CreanceFactureRepository {
           '7': data.succursale,
           '8': data.signature,
           '9': data.created,
-          '10': data.business
+          '10': data.business,
+          '11': data.sync,
+          '12': data.async,
         }
       );
     });
@@ -47,7 +50,8 @@ class CreanceFactureRepository {
     await executor.query("""UPDATE $tableName
       SET cart = @1, client = @2, nom_client = @3,
       telephone = @4, addresse = @5, delai_paiement = @6, succursale = @7,
-      signature = @8, created = @9, business = @10 WHERE id = @11""", substitutionValues: {
+      signature = @8, created = @9, business = @10, sync = @11,
+      async = @12 WHERE id = @13""", substitutionValues: {
       '1': data.cart,
       '2': data.client,
       '3': data.nomClient,
@@ -58,7 +62,9 @@ class CreanceFactureRepository {
       '8': data.signature,
       '9': data.created,
       '10': data.business,
-      '11': data.id
+      '11': data.sync,
+      '12': data.async,
+      '13': data.id
     });
   } 
 
@@ -87,7 +93,9 @@ class CreanceFactureRepository {
       succursale: data[0][7],
       signature: data[0][8],
       created: data[0][9],
-      business: data[0][10]
+      business: data[0][10],
+      sync: data[0][11],
+      async: data[0][12],
     );
   } 
 }

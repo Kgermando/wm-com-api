@@ -55,6 +55,8 @@ class GainsHandlers {
           signature: input['signature'],
           created: DateTime.parse(input['created']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
       try {
         await repos.gains.insertData(data);
@@ -85,6 +87,12 @@ class GainsHandlers {
       }
       if (input['business'] != null) {
         data.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        data.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        data.async = input['async'];
       }
       repos.gains.update(data);
       return Response.ok(jsonEncode(data.toJson()));

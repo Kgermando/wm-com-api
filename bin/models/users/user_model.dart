@@ -15,6 +15,8 @@ class UserModel {
   late String passwordHash;
   late String succursale;
   late String business;
+  late String sync;
+  late String async;
 
   UserModel({
     this.id,
@@ -33,6 +35,8 @@ class UserModel {
     required this.passwordHash,
     required this.succursale,
     required this.business,
+    required this.sync,
+    required this.async,
   });
 
   factory UserModel.fromSQL(List<dynamic> row) {
@@ -52,7 +56,9 @@ class UserModel {
         createdAt: row[12],
         passwordHash: row[13],
         succursale: row[14],
-      business: row[15]
+      business: row[15],
+        sync: row[16],
+        async: row[17]
     );
   }
 
@@ -73,7 +79,10 @@ class UserModel {
         createdAt: DateTime.parse(json["createdAt"]),
         passwordHash: json["passwordHash"],
         succursale: json["succursale"],
-      business: json['business']);
+      business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -94,6 +103,8 @@ class UserModel {
       'passwordHash': passwordHash,
       'succursale': succursale,
       'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

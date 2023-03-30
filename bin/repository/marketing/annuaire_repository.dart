@@ -1,5 +1,5 @@
 import 'package:postgres/postgres.dart';
- 
+
 import '../../models/marketing/annuaire_model.dart';
 
 class AnnuaireReposiotry {
@@ -8,11 +8,11 @@ class AnnuaireReposiotry {
 
   AnnuaireReposiotry(this.executor, this.tableName);
 
-
   Future<List<AnnuaireModel>> getAllData(String business) async {
     var data = <AnnuaireModel>{};
 
-    var querySQL = "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
+    var querySQL =
+        "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(AnnuaireModel.fromSQL(row));
@@ -20,15 +20,15 @@ class AnnuaireReposiotry {
     return data.toList();
   }
 
-  
   Future<void> insertData(AnnuaireModel data) async {
     await executor.transaction((ctx) async {
       await ctx.execute(
           "INSERT INTO $tableName (id, categorie, nom_postnom_prenom,"
           "email, mobile_1, mobile_2, secteur_activite, nom_entreprise,"
-          "grade,  adresse_entreprise,  succursale, signature, created, business)"
+          "grade,  adresse_entreprise, succursale, signature, created,"
+          "business, sync, async)"
           "VALUES (nextval('annuaires_id_seq'), @1, @2, @3, @4, @5, @6,"
-          "@7, @8, @9, @10, @11, @12, @13)",
+          "@7, @8, @9, @10, @11, @12, @13, @14, @15)",
           substitutionValues: {
             '1': data.categorie,
             '2': data.nomPostnomPrenom,
@@ -42,17 +42,20 @@ class AnnuaireReposiotry {
             '10': data.succursale,
             '11': data.signature,
             '12': data.created,
-              '13': data.business,
+            '13': data.business,
+            '14': data.sync,
+            '15': data.async,
           });
     });
   }
 
   Future<void> update(AnnuaireModel data) async {
-     await executor.query("""UPDATE $tableName
+    await executor.query("""UPDATE $tableName
           SET categorie = @1, nom_postnom_prenom = @2, email = @3,
           mobile_1 = @4, mobile_2 = @5, secteur_activite = @6, nom_entreprise = @7,
           grade = @8, adresse_entreprise = @9, succursale = @10, signature = @11,
-          created = @12, business = @13 WHERE id = @14""", substitutionValues: {
+          created = @12, business = @13,
+          sync = @14, async = @15 WHERE id = @16""", substitutionValues: {
       '1': data.categorie,
       '2': data.nomPostnomPrenom,
       '3': data.email,
@@ -66,7 +69,9 @@ class AnnuaireReposiotry {
       '11': data.signature,
       '12': data.created,
       '13': data.business,
-      '14': data.id
+      '14': data.sync,
+      '15': data.async,
+      '16': data.id
     });
   }
 
@@ -98,7 +103,9 @@ class AnnuaireReposiotry {
       succursale: data[0][10],
       signature: data[0][11],
       created: data[0][12],
-        business: data[0][13]
+      business: data[0][13],
+      sync: data[0][14],
+      async: data[0][15],
     );
-  } 
+  }
 }

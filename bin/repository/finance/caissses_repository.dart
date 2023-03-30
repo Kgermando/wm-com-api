@@ -1,5 +1,6 @@
 import 'package:postgres/postgres.dart';
 
+import '../../models/finance/charts_multi.dart';
 import '../../models/finance/caisse_model.dart'; 
 
 class CaissesRepository {
@@ -19,15 +20,28 @@ class CaissesRepository {
     return data.toList();
   }
 
+  Future<List<ChartFinanceModel>> getAllDataChart(String business) async {
+    var data = <ChartFinanceModel>{};
+
+    var querySQL =
+        "SELECT \"caisse_name\", SUM(\"montant_encaissement\"::FLOAT), SUM(\"montant_decaissement\"::FLOAT) FROM $tableName  WHERE \"business\"='$business' GROUP BY \"caisse_name\";";
+
+    List<List<dynamic>> results = await executor.query(querySQL);
+    for (var row in results) {
+      data.add(ChartFinanceModel.fromSQL(row));
+    }
+    return data.toList();
+  } 
+
   Future<void> insertData(CaisseModel data) async {
     await executor.transaction((ctx) async {
       await ctx.execute(
         "INSERT INTO $tableName (id, nom_complet, piece_justificative,"
         "libelle, montant_encaissement,"
         "departement, type_operation, numero_operation, signature,"
-        "reference, caisse_name, created, montant_decaissement, business)"
+        "reference, caisse_name, created, montant_decaissement, business, sync, async)"
         "VALUES (nextval('caisses_id_seq'), @1, @2, @3, @4, @5, @6,"
-        "@7, @8, @9, @10, @11, @12, @13)",
+        "@7, @8, @9, @10, @11, @12, @13, @14, @15)",
         substitutionValues: {
            '1': data.nomComplet,
             '2': data.pieceJustificative,
@@ -41,7 +55,9 @@ class CaissesRepository {
             '10': data.caisseName,
             '11': data.created,
             '12': data.montantDecaissement,
-            '13': data.business
+            '13': data.business,
+            '14': data.sync,
+            '15': data.async,
         });
     });
   }
@@ -52,7 +68,8 @@ class CaissesRepository {
         montant_encaissement = @4, departement = @5,
         type_operation = @6, numero_operation = @7, signature = @8,
         reference = @9, caisse_name = @10, created = @11, 
-        montant_decaissement = @12, business = @13 WHERE id = @14""", substitutionValues: {
+        montant_decaissement = @12, business = @13, 
+        sync = @14, async = @15 WHERE id = @16""", substitutionValues: {
       '1': data.nomComplet,
       '2': data.pieceJustificative,
       '3': data.libelle,
@@ -66,7 +83,9 @@ class CaissesRepository {
       '11': data.created,
       '12': data.montantDecaissement,
       '13': data.business,
-      '14': data.id
+      '14': data.sync,
+      '15': data.async,
+      '16': data.id
     });
   }
 
@@ -99,6 +118,8 @@ class CaissesRepository {
         created: data[0][11],
        montantDecaissement: data[0][12],
       business: data[0][13],
+      sync: data[0][14],
+      async: data[0][15],
       );
   }
 

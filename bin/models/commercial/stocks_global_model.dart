@@ -12,6 +12,8 @@ class StocksGlobalMOdel {
   late String signature; // celui qui fait le document
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   StocksGlobalMOdel(
       {this.id,
@@ -26,7 +28,10 @@ class StocksGlobalMOdel {
       required this.qtyRavitailler,
       required this.signature,
       required this.created,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory StocksGlobalMOdel.fromSQL(List<dynamic> row) {
     return StocksGlobalMOdel(
@@ -42,7 +47,9 @@ class StocksGlobalMOdel {
         qtyRavitailler: row[9],
         signature: row[10],
         created: row[11],
-        business: row[12]);
+        business: row[12],
+        sync: row[13],
+        async: row[14]);
   }
 
   factory StocksGlobalMOdel.fromJson(Map<String, dynamic> json) {
@@ -59,7 +66,10 @@ class StocksGlobalMOdel {
         qtyRavitailler: json["qtyRavitailler"],
         signature: json['signature'],
         created: DateTime.parse(json['created']),
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +86,9 @@ class StocksGlobalMOdel {
       "qtyRavitailler": qtyRavitailler,
       'signature': signature,
       'created': created.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

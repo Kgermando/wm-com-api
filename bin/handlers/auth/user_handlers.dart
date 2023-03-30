@@ -63,6 +63,8 @@ class UserHandlers {
               md5.convert(utf8.encode(input['passwordHash'])).toString(),
           succursale: input['succursale'],
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
 
       try {
@@ -83,6 +85,12 @@ class UserHandlers {
       if (input['succursale'] != null) {
         selectUser.succursale = input['succursale'];
       }
+      if (input['sync'] != null) {
+        selectUser.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        selectUser.async = input['async'];
+      }
       repos.users.update(selectUser);
       return Response.ok(jsonEncode(selectUser.toJson()));
     });
@@ -98,6 +106,12 @@ class UserHandlers {
       if (input['passwordHash'] != null) {
         selectUser.passwordHash =
             md5.convert(utf8.encode(input['passwordHash'])).toString();
+      }
+      if (input['sync'] != null) {
+        selectUser.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        selectUser.async = input['async'];
       }
       repos.users.update(selectUser);
       return Response.ok(jsonEncode(selectUser.toJson()));

@@ -53,9 +53,9 @@ class UserRepository {
       await ctx.execute(
         "INSERT INTO $tableName (id, photo, nom, prenom, email, telephone,"
         "role, matricule, departement, services_affectation, fonction_occupe,"
-        "is_online, created_at, password_hash, succursale, business)"
+        "is_online, created_at, password_hash, succursale, business, sync, async)"
         "VALUES (nextval('users_id_seq'), @1, @2, @3, @4, @5, @6, @7,"
-          "@8, @9, @10, @11, @12, @13, @14, @15)",
+          "@8, @9, @10, @11, @12, @13, @14, @15, @16, @17)",
         substitutionValues: {
           '1': data.photo,
           '2': data.nom,
@@ -72,6 +72,8 @@ class UserRepository {
           '13': data.passwordHash,
           '14': data.succursale,
           '15': data.business,
+          '16': data.sync,
+          '17': data.async,
         });
     });
   } 
@@ -81,7 +83,8 @@ class UserRepository {
       SET photo = @1, nom = @2, prenom = @3, email = @4, telephone = @5,
       role = @6, matricule = @7, departement = @8, services_affectation = @9,
       fonction_occupe = @10, is_online = @11, created_at = @12,
-      password_hash = @13, succursale = @14, business = @15 WHERE id = @16""",
+      password_hash = @13, succursale = @14, business = @15, 
+      sync = @16, async = @17 WHERE id = @18""",
       substitutionValues: {
         '1': data.photo,
         '2': data.nom,
@@ -98,7 +101,9 @@ class UserRepository {
         '13': data.passwordHash,
         '14': data.succursale,
         '15': data.business,
-        '16': data.id
+        '16': data.sync,
+        '17': data.async,
+        '18': data.id
       }
     );   
   }
@@ -134,7 +139,10 @@ class UserRepository {
         createdAt: data[0][12],
         passwordHash: data[0][13],
         succursale: data[0][14],
-        business: data[0][15]);
+        business: data[0][15],
+      sync: data[0][16],
+    async: data[0][17],
+    );
   }
 
 }  

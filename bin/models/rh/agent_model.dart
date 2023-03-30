@@ -27,6 +27,8 @@ class AgentModel {
   late DateTime created;
   late String isDelete;
   late String business;
+  late String sync;
+  late String async;
 
   AgentModel({
     this.id,
@@ -57,6 +59,8 @@ class AgentModel {
     required this.created,
     required this.isDelete,
     required this.business,
+    required this.sync,
+    required this.async,
   });
 
   factory AgentModel.fromSQL(List<dynamic> row) {
@@ -88,7 +92,9 @@ class AgentModel {
         signature: row[24],
         created: row[25],
         isDelete: row[26],
-        business: row[27]);
+        business: row[27],
+        sync: row[28],
+        async: row[29]);
   }
 
   factory AgentModel.fromJson(Map<String, dynamic> json) {
@@ -120,7 +126,10 @@ class AgentModel {
         signature: json['signature'],
         created: DateTime.parse(json['created']),
         isDelete: json['isDelete'],
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -152,7 +161,9 @@ class AgentModel {
       'signature': signature,
       'created': created.toIso8601String(),
       'isDelete': isDelete,
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

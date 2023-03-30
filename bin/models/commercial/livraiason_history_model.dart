@@ -16,6 +16,8 @@ class LivraisonHistoryModel {
   late String signature; // celui qui fait le document
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
 
   LivraisonHistoryModel(
@@ -35,7 +37,9 @@ class LivraisonHistoryModel {
       required this.succursale,
       required this.signature,
       required this.created,
-    required this.business
+    required this.business,
+    required this.sync,
+    required this.async,
   });
 
   factory LivraisonHistoryModel.fromSQL(List<dynamic> row) {
@@ -56,7 +60,9 @@ class LivraisonHistoryModel {
         succursale: row[13],
         signature: row[14],
         created: row[15],
-        business: row[16]
+        business: row[16],
+        sync: row[17],
+        async: row[18]
       );
   }
 
@@ -78,7 +84,9 @@ class LivraisonHistoryModel {
       succursale: json['succursale'],
       signature: json['signature'],
       created: DateTime.parse(json['created']),
-        business: json['business']
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
     );
   }
 
@@ -100,7 +108,9 @@ class LivraisonHistoryModel {
       'succursale': succursale,
       'signature': signature,
       'created': created.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

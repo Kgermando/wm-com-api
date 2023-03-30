@@ -13,6 +13,8 @@ class RestitutionModel {
   late String signature; // celui qui fait le document
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   RestitutionModel(
       {this.id,
@@ -28,7 +30,10 @@ class RestitutionModel {
       required this.succursale,
       required this.signature,
       required this.created,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory RestitutionModel.fromSQL(List<dynamic> row) {
     return RestitutionModel(
@@ -45,7 +50,9 @@ class RestitutionModel {
         succursale: row[10],
         signature: row[11],
         created: row[12],
-        business: row[13]);
+        business: row[13],
+        sync: row[14],
+        async: row[15]);
   }
 
   factory RestitutionModel.fromJson(Map<String, dynamic> json) {
@@ -63,7 +70,10 @@ class RestitutionModel {
         succursale: json['succursale'],
         signature: json['signature'],
         created: DateTime.parse(json['created']),
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -81,7 +91,9 @@ class RestitutionModel {
       'succursale': succursale,
       'signature': signature,
       'created': created.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 }

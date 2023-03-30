@@ -48,6 +48,8 @@ class CartHandlers {
           created: DateTime.parse(input['created']),
           createdAt: DateTime.parse(input['createdAt']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
         );
       try {
         await repos.carts.insertData(data);
@@ -102,6 +104,12 @@ class CartHandlers {
       }
       if (input['business'] != null) {
         data.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        data.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        data.async = input['async'];
       }
       repos.carts.update(data);
       return Response.ok(jsonEncode(data.toJson()));

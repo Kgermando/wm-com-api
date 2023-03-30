@@ -34,15 +34,16 @@ class ProduitModelHandlers {
       var input = jsonDecode(await request.readAsString());
 
       ProductModel data = ProductModel(
-        categorie: input['categorie'],
-        sousCategorie1: input['sousCategorie1'],
-        sousCategorie2: input['sousCategorie2'],
-        sousCategorie3: input['sousCategorie3'],
-        sousCategorie4: input['sousCategorie4'],
+        service: input['service'],
+        identifiant: input['identifiant'],
+        unite: input['unite'],
+        price: input['price'],
         idProduct: input['idProduct'],
-        signature: input['signature'],
+        signature: input['signature'], 
         created: DateTime.parse(input['created']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
       try {
         await repos.produitModel.insertData(data);
@@ -59,23 +60,17 @@ class ProduitModelHandlers {
       ProductModel? data =
           await repos.produitModel.getFromId(editH.id!); 
           
-      if (input['categorie'] != null) {
-        data.categorie = input['categorie'];
+      if (input['service'] != null) {
+        data.service = input['service'];
       }
-      if (input['sousCategorie1'] != null) {
-        data.sousCategorie1 = input['sousCategorie1'];
+      if (input['identifiant'] != null) {
+        data.identifiant = input['identifiant'];
       }
-      if (input['sousCategorie2'] != null) {
-        data.sousCategorie2 = input['sousCategorie2'];
+      if (input['unite'] != null) {
+        data.unite = input['unite'];
       }
-      if (input['sousCategorie3'] != null) {
-        data.sousCategorie3 = input['sousCategorie3'];
-      }
-      if (input['sousCategorie4'] != null) {
-        data.sousCategorie4 = input['sousCategorie4'];
-      }
-      if (input['idProduct'] != null) {
-        data.idProduct = input['idProduct'];
+      if (input['price'] != null) {
+        data.price = input['price'];
       }
       if (input['signature'] != null) {
         data.signature = input['signature'];
@@ -86,6 +81,12 @@ class ProduitModelHandlers {
       if (input['business'] != null) {
         data.business = input['business'];
       }
+      if (input['sync'] != null) {
+        data.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        data.async = input['async'];
+      } 
       repos.produitModel.update(data);
       return Response.ok(jsonEncode(data.toJson()));
     });

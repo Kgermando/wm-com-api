@@ -8,6 +8,8 @@ class FactureCartModel {
   late String signature; // Celui qui fait le document
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   FactureCartModel(
       {this.id,
@@ -18,7 +20,10 @@ class FactureCartModel {
       required this.succursale,
       required this.signature,
       required this.created,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory FactureCartModel.fromSQL(List<dynamic> row) {
     return FactureCartModel(
@@ -30,7 +35,9 @@ class FactureCartModel {
         succursale: row[5],
         signature: row[6],
         created: row[7],
-        business: row[8]);
+        business: row[8],
+        sync: row[9],
+        async: row[10]);
   }
 
   factory FactureCartModel.fromJson(Map<String, dynamic> json) {
@@ -43,7 +50,10 @@ class FactureCartModel {
         succursale: json['succursale'],
         signature: json['signature'],
         created: DateTime.parse(json['created']),
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -56,7 +66,9 @@ class FactureCartModel {
       'succursale': succursale,
       'signature': signature,
       'created': created.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 

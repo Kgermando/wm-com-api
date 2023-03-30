@@ -23,15 +23,17 @@ class AgendaRepository {
     await executor.transaction((ctx) async {
       await ctx.execute(
           "INSERT INTO $tableName (id, title, description,"
-          "date_rappel, signature, created, business)"
-          "VALUES (nextval('agendas_id_seq'), @1, @2, @3, @4, @5, @6)",
+          "date_rappel, signature, created, business, sync, async)"
+          "VALUES (nextval('agendas_id_seq'), @1, @2, @3, @4, @5, @6, @7, @8)",
           substitutionValues: {
             '1': data.title,
             '2': data.description,
             '3': data.dateRappel,
             '4': data.signature,
             '5': data.created,
-            '6': data.business
+            '6': data.business,
+            '7': data.sync,
+            '8': data.async
           });
     });
   }
@@ -39,14 +41,17 @@ class AgendaRepository {
   Future<void> update(AgendaModel data) async {
     await executor.query("""UPDATE $tableName
       SET title = @1, description = @2, date_rappel = @3,
-      signature = @4, created = @5, created = @6 WHERE id = @7""", substitutionValues: {
+      signature = @4, created = @5, created = @6,
+    sync = @7, async = @8 WHERE id = @9""", substitutionValues: {
       '1': data.title,
       '2': data.description,
       '3': data.dateRappel,
       '4': data.signature,
       '5': data.created,
       '6': data.business,
-      '7': data.id
+      '7': data.sync,
+      '8': data.async,
+      '9': data.id
     });
   }
 
@@ -71,6 +76,9 @@ class AgendaRepository {
         dateRappel: data[0][3],
         signature: data[0][4],
         created: data[0][5],
-        business: data[0][6]);
+        business: data[0][6],
+      sync: data[0][7],
+    async: data[0][8],
+    );
   }
 }

@@ -38,9 +38,12 @@ class PaiementReservationHandlers {
           client: input['client'],
           motif: input['motif'],
           montant: input['montant'], 
-          signature: input['signature'],
+          succursale: input['succursale'],
+          signature: input['signature'], 
           created: DateTime.parse(input['created']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
 
       try {
@@ -70,14 +73,23 @@ class PaiementReservationHandlers {
       if (input['montant'] != null) {
         dataItem.montant = input['montant'];
       }
+      if (input['succursale'] != null) {
+        dataItem.succursale = input['succursale'];
+      } 
       if (input['signature'] != null) {
         dataItem.signature = input['signature'];
-      } 
+      }
       if (input['created'] != null) {
         dataItem.created = DateTime.parse(input['created']);
       }
       if (input['business'] != null) {
         dataItem.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        dataItem.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        dataItem.async = input['async'];
       }
 
       repos.paiementReservationRepository.update(dataItem);
@@ -87,7 +99,7 @@ class PaiementReservationHandlers {
     router.delete('/delete-reservation-paiement/<id>',
         (Request request, String id) async {
       var id = request.params['id'];
-      repos.agents.deleteData(int.parse(id!));
+      repos.paiementReservationRepository.deleteData(int.parse(id!));
       return Response.ok('Supprimée');
     });
 

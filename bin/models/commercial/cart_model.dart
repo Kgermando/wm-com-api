@@ -13,6 +13,8 @@ class CartModel {
   late DateTime created;
   late DateTime createdAt;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
 
   CartModel(
@@ -29,7 +31,10 @@ class CartModel {
       required this.signature,
       required this.created,
       required this.createdAt,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory CartModel.fromSQL(List<dynamic> row) {
     return CartModel(
@@ -46,7 +51,9 @@ class CartModel {
         signature: row[10],
         created: row[11],
         createdAt: row[12],
-        business: row[5]);
+        business: row[13],
+        sync: row[14],
+        async: row[15]);
   }
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
@@ -64,7 +71,10 @@ class CartModel {
         signature: json['signature'],
         created: DateTime.parse(json['created']),
         createdAt: DateTime.parse(json['createdAt']),
-        business: json['business']);
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -82,7 +92,9 @@ class CartModel {
       'signature': signature,
       'created': created.toIso8601String(),
       'createdAt': createdAt.toIso8601String(),
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 

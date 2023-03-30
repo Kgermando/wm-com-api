@@ -38,7 +38,8 @@ class UpdateHandlers {
         urlUpdate: input['urlUpdate'], 
         created: DateTime.parse(input['created']),
         isActive: input['isActive'], 
-        motif: input['motif']
+        motif: input['motif'],
+        business: input['business'],
       );
       try {
         await repos.updateVersion.insertData(data);
@@ -68,7 +69,10 @@ class UpdateHandlers {
       } 
       if (input['motif'] != null) {
         data.motif = input['motif'];
-      } 
+      }
+      if (input['business'] != null) {
+        data.business = input['business'];
+      }
 
       repos.updateVersion.update(data);
       return Response.ok(jsonEncode(data.toJson()));

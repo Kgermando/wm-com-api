@@ -13,7 +13,8 @@ class VenteRepository {
   Future<List<VenteCartModel>> getAllData(String business) async {
     var data = <VenteCartModel>{};
 
-    var querySQL = "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
+    var querySQL =
+        "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(VenteCartModel.fromSQL(row));
@@ -23,8 +24,7 @@ class VenteRepository {
 
   Future<List<VenteChartModel>> getAllDataChart(String business) async {
     var data = <VenteChartModel>{};
-    var querySQL =
-      """SELECT "id_product_cart", COUNT(*) 
+    var querySQL = """SELECT "id_product_cart", COUNT(*) 
       FROM $tableName 
       GROUP BY "id_product_cart" 
       ORDER BY COUNT DESC LIMIT 10;""";
@@ -39,8 +39,7 @@ class VenteRepository {
   Future<List<CourbeVenteModel>> getAllDataChartDay(String business) async {
     var data = <CourbeVenteModel>{};
 
-    var querySQL =
-      """SELECT EXTRACT(HOUR FROM "created" ::TIMESTAMP), 
+    var querySQL = """SELECT EXTRACT(HOUR FROM "created" ::TIMESTAMP), 
           SUM("price_total_cart"::FLOAT) 
           FROM $tableName WHERE "business"='$business' AND
           DATE("created") >= CURRENT_DATE AND 
@@ -59,8 +58,7 @@ class VenteRepository {
     var data = <CourbeVenteModel>{};
 
     // Filtre est égal à l'année et le mois actuel
-    var querySQL =
-      """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP),
+    var querySQL = """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP),
         SUM(price_total_cart::FLOAT) 
         FROM $tableName WHERE "business"='$business' AND
         EXTRACT(MONTH FROM "created" ::TIMESTAMP) = EXTRACT(MONTH FROM CURRENT_DATE ::TIMESTAMP) AND
@@ -84,7 +82,7 @@ class VenteRepository {
       EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
       GROUP BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) 
       ORDER BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) ASC;
-    """; 
+    """;
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(CourbeVenteModel.fromSQL(row));
@@ -97,9 +95,9 @@ class VenteRepository {
       await ctx.execute(
           "INSERT INTO $tableName (id, id_product_cart, quantity_cart,"
           "price_total_cart, unite, tva, remise, qty_remise,"
-          "succursale, signature, created, created_at, business)"
+          "succursale, signature, created, created_at, business, sync, async)"
           "VALUES (nextval('ventes_id_seq'), @1, @2, @3, @4, @5, @6,"
-          "@7, @8, @9, @10, @11, @12)",
+          "@7, @8, @9, @10, @11, @12, @13, @14)",
           substitutionValues: {
             '1': data.idProductCart,
             '2': data.quantityCart,
@@ -112,7 +110,9 @@ class VenteRepository {
             '9': data.signature,
             '10': data.created,
             '11': data.createdAt,
-            '12': data.business
+            '12': data.business,
+            '13': data.sync,
+            '14': data.async,
           });
     });
   }
@@ -122,22 +122,24 @@ class VenteRepository {
           SET id_product_cart = @1, quantity_cart = @2, price_total_cart = @3,
           unite = @4, tva = @5, remise = @6, qty_remise = @7,
           succursale = @8, signature = @9, created = @10, 
-          created_at = @11, business = @12 WHERE id = @13""",
-        substitutionValues: {
-          '1': data.idProductCart,
-          '2': data.quantityCart,
-          '3': data.priceTotalCart,
-          '4': data.unite,
-          '5': data.tva,
-          '6': data.remise,
-          '7': data.qtyRemise,
-          '8': data.succursale,
-          '9': data.signature,
-          '10': data.created,
-          '11': data.createdAt,
-          '12': data.business,
-          '13': data.id
-        });
+          created_at = @11, business = @12, 
+          sync = @13, async = @14 WHERE id = @15""", substitutionValues: {
+      '1': data.idProductCart,
+      '2': data.quantityCart,
+      '3': data.priceTotalCart,
+      '4': data.unite,
+      '5': data.tva,
+      '6': data.remise,
+      '7': data.qtyRemise,
+      '8': data.succursale,
+      '9': data.signature,
+      '10': data.created,
+      '11': data.createdAt,
+      '12': data.business,
+      '13': data.sync,
+      '14': data.async,
+      '15': data.id
+    });
   }
 
   deleteData(int id) async {
@@ -155,18 +157,21 @@ class VenteRepository {
     var data =
         await executor.query("SELECT * FROM  $tableName WHERE \"id\" = '$id'");
     return VenteCartModel(
-        id: data[0][0],
-        idProductCart: data[0][1],
-        quantityCart: data[0][2],
-        priceTotalCart: data[0][3],
-        unite: data[0][4],
-        tva: data[0][5],
-        remise: data[0][6],
-        qtyRemise: data[0][7],
-        succursale: data[0][8],
-        signature: data[0][9],
-        created: data[0][10],
-        createdAt: data[0][11],
-        business: data[0][12]);
+      id: data[0][0],
+      idProductCart: data[0][1],
+      quantityCart: data[0][2],
+      priceTotalCart: data[0][3],
+      unite: data[0][4],
+      tva: data[0][5],
+      remise: data[0][6],
+      qtyRemise: data[0][7],
+      succursale: data[0][8],
+      signature: data[0][9],
+      created: data[0][10],
+      createdAt: data[0][11],
+      business: data[0][12],
+      sync: data[0][13],
+      async: data[0][14],
+    );
   }
 }

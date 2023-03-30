@@ -23,14 +23,15 @@ class UpdateVersionRepository {
   Future<void> insertData(UpdateModel data) async {
     await executor.transaction((ctx) async {
       await ctx.query(
-        "INSERT INTO $tableName (id, version, url_update, created, is_active, motif)"
-        "VALUES (nextval('update_versions_id_seq'), @1, @2, @3, @4, @5)",
+        "INSERT INTO $tableName (id, version, url_update, created, is_active, motif, business)"
+        "VALUES (nextval('update_versions_id_seq'), @1, @2, @3, @4, @5, @6)",
         substitutionValues: {
           '1': data.version,
           '2': data.urlUpdate,
           '3': data.created,
           '4': data.isActive,
-          '5': data.motif
+          '5': data.motif,
+          '6': data.business
         });
     });
   }
@@ -38,13 +39,14 @@ class UpdateVersionRepository {
   Future<void> update(UpdateModel data) async {
     await executor.query("""UPDATE $tableName
       SET version = @1, url_update = @2,
-        created = @3, is_active = @4, motif = @5 WHERE id = @6""", substitutionValues: {
+        created = @3, is_active = @4, motif = @5, business = @6 WHERE id = @7""", substitutionValues: {
       '1': data.version,
       '2': data.urlUpdate,
       '3': data.created,
       '4': data.isActive,
       '5': data.motif,
-      '6': data.id
+      '6': data.business,
+      '7': data.id
     });
   }
 
@@ -68,7 +70,8 @@ class UpdateVersionRepository {
       urlUpdate: data[0][2],
       created: data[0][3],
       isActive: data[0][4],
-      motif: data[0][5]
+      motif: data[0][5],
+      business: data[0][6]
     );
   }
 }

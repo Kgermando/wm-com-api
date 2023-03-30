@@ -9,23 +9,22 @@ class GainRepository {
 
   GainRepository(this.executor, this.tableName);
 
-
   Future<List<GainModel>> getAllData(String business) async {
     var data = <GainModel>{};
 
-    var querySQL = "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
+    var querySQL =
+        "SELECT * FROM $tableName WHERE \"business\"='$business' ORDER BY \"created\" DESC;";
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(GainModel.fromSQL(row));
     }
     return data.toList();
   }
- 
+
   Future<List<CourbeGainModel>> getAllDataChartDay(String business) async {
     var data = <CourbeGainModel>{};
 
-    var querySQL =
-        """SELECT EXTRACT(HOUR FROM "created" ::TIMESTAMP), 
+    var querySQL = """SELECT EXTRACT(HOUR FROM "created" ::TIMESTAMP), 
         SUM("sum"::FLOAT) 
         FROM $tableName WHERE "business"='$business' AND
         DATE("created") >= CURRENT_DATE AND 
@@ -42,15 +41,14 @@ class GainRepository {
 
   Future<List<CourbeGainModel>> getAllDataChartMounth(String business) async {
     var data = <CourbeGainModel>{};
-    var querySQL = 
-       """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP), 
+    var querySQL = """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP), 
           SUM(sum::FLOAT) 
         FROM $tableName WHERE "business"='$business' AND
         EXTRACT(MONTH FROM "created" ::TIMESTAMP) = EXTRACT(MONTH FROM CURRENT_DATE ::TIMESTAMP) AND
         EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
         GROUP BY EXTRACT(DAY FROM "created" ::TIMESTAMP) 
         ORDER BY EXTRACT(DAY FROM "created" ::TIMESTAMP) ASC;
-      """; 
+      """;
     List<List<dynamic>> results = await executor.query(querySQL);
     for (var row in results) {
       data.add(CourbeGainModel.fromSQL(row));
@@ -60,7 +58,7 @@ class GainRepository {
 
   Future<List<CourbeGainModel>> getAllDataChartYear(String business) async {
     var data = <CourbeGainModel>{};
-        // Filtre est egal à l'année actuel
+    // Filtre est egal à l'année actuel
     var querySQL = """SELECT EXTRACT(MONTH FROM "created" ::TIMESTAMP), 
         SUM(sum::FLOAT)
       FROM $tableName WHERE "business"='$business' AND
@@ -79,14 +77,16 @@ class GainRepository {
     await executor.transaction((ctx) async {
       await ctx.execute(
           "INSERT INTO $tableName (id, sum,"
-          "succursale, signature, created, business)"
-          "VALUES (nextval('gains_id_seq'), @1, @2, @3, @4, @5)",
+          "succursale, signature, created, business, sync, async)"
+          "VALUES (nextval('gains_id_seq'), @1, @2, @3, @4, @5, @6, @7)",
           substitutionValues: {
             '1': data.sum,
             '2': data.succursale,
             '3': data.signature,
             '4': data.created,
-            '5': data.business
+            '5': data.business,
+            '6': data.sync,
+            '7': data.async,
           });
     });
   }
@@ -94,13 +94,16 @@ class GainRepository {
   Future<void> update(GainModel data) async {
     await executor.query("""UPDATE $tableName
           SET sum = @1, succursale = @2,
-          signature = @3, created = @4, business = @5 WHERE id = @6""", substitutionValues: {
+          signature = @3, created = @4, business = @5, 
+          sync = @6, async = @7 WHERE id = @8""", substitutionValues: {
       '1': data.sum,
       '2': data.succursale,
       '3': data.signature,
       '4': data.created,
       '5': data.business,
-      '6': data.id
+      '6': data.sync,
+      '7': data.async,
+      '8': data.id
     });
   }
 
@@ -121,10 +124,12 @@ class GainRepository {
     return GainModel(
       id: data[0][0],
       sum: data[0][1],
-        signature: data[0][2],
-        succursale: data[0][3],
-        created: data[0][4],
-        business: data[0][5]
+      signature: data[0][2],
+      succursale: data[0][3],
+      created: data[0][4],
+      business: data[0][5],
+      sync: data[0][6],
+      async: data[0][7],
     );
-  } 
+  }
 }

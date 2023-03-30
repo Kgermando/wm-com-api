@@ -13,6 +13,8 @@ class ReservationModel {
   late DateTime created;
   late String montant;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   ReservationModel(
       {this.id,
@@ -28,7 +30,10 @@ class ReservationModel {
       required this.signature,
       required this.created,
       required this.montant,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory ReservationModel.fromSQL(List<dynamic> row) {
     return ReservationModel(
@@ -45,7 +50,9 @@ class ReservationModel {
         signature: row[10],
         created: row[11],
         montant: row[12],
-        business: row[13]);
+        business: row[13],
+        sync: row[14],
+        async: row[15]);
   }
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
@@ -63,7 +70,9 @@ class ReservationModel {
       signature: json['signature'],
       created: DateTime.parse(json['created']),
       montant: json['montant'],
-        business: json['business']
+        business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
     );
   }
 
@@ -82,7 +91,9 @@ class ReservationModel {
       'signature': signature,
       'created': created.toIso8601String(),
       'montant': montant,
-      'business': business
+      'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 

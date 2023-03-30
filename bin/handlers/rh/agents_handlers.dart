@@ -66,6 +66,8 @@ class AgentsHandlers {
           created: DateTime.parse(input['created']),
           isDelete: input['isDelete'],
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
       try {
         await repos.agents.insertData(agent);
@@ -162,6 +164,12 @@ class AgentsHandlers {
       }
       if (input['business'] != null) {
         selectUser.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        selectUser.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        selectUser.async = input['async'];
       }
 
       repos.agents.update(selectUser);

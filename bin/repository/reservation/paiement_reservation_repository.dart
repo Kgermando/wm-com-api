@@ -23,33 +23,42 @@ class PaiementReservationRepository {
     await executor.transaction((ctx) async {
       await ctx.query(
           "INSERT INTO $tableName (id, reference, client, motif,"
-          "montant, signature, created, business)"
-          "VALUES (nextval('paiement_reservations_id_seq'), @1, @2, @3, @4, @5, @6, @7)",
+          "montant, succursale, signature, created,"
+          "business, sync, async)"
+          "VALUES (nextval('paiement_reservations_id_seq'),"
+          "@1, @2, @3, @4, @5, @6, @7, @8, @9, @10)",
           substitutionValues: {
             '1': data.reference,
             '2': data.client,
             '3': data.motif,
             '4': data.montant,
             '5': data.signature,
-            '6': data.created,
-            '7': data.business
+            '6': data.signature,
+            '7': data.created,
+            '8': data.business,
+            '9': data.sync,
+            '10': data.async,
           });
     });
   }
 
   Future<void> update(PaiementReservationModel data) async {
     await executor.query("""UPDATE $tableName
-      SET reference = @1, client = @2, motif = @3, montant = @4, 
-        signature = @5, created = @6, business = @7 WHERE id = @8""",
+      SET reference = @1, client = @2, motif = @3, montant = @4, succursale = @5,
+        signature = @6, created = @7, business = @8, 
+        sync = @9, async = @10 WHERE id = @11""",
         substitutionValues: {
           '1': data.reference,
           '2': data.client,
           '3': data.motif,
           '4': data.montant,
           '5': data.signature,
-          '6': data.created,
-          '7': data.business,
-          '8': data.id
+          '6': data.signature,
+          '7': data.created,
+          '8': data.business,
+          '9': data.sync,
+          '10': data.async,
+          '11': data.id
         });
   }
 
@@ -74,9 +83,12 @@ class PaiementReservationRepository {
       client: data[0][2],
       motif: data[0][3],
       montant: data[0][4],
-      signature: data[0][5],
-      created: data[0][6],
-      business: data[0][7],
+      succursale: data[0][5],
+      signature: data[0][6],
+      created: data[0][7],
+      business: data[0][8],
+      sync: data[0][9],
+      async: data[0][10],
     );
   }
 }

@@ -1,72 +1,74 @@
 class ProductModel {
   late int? id;
-  late String categorie;
-  late String sousCategorie1;
-  late String sousCategorie2;
-  late String sousCategorie3;
-  late String sousCategorie4; // Unité
+  late String service;
+  late String identifiant;
+  late String unite; // Unité
+  late String price;
   late String idProduct;
   late String signature; // celui qui fait le document
-  late DateTime created;  
+  late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   ProductModel({
     this.id,
-    required this.categorie,
-    required this.sousCategorie1,
-    required this.sousCategorie2,
-    required this.sousCategorie3,
-    required this.sousCategorie4,
+    required this.service,
+    required this.identifiant,
+    required this.unite,
+    required this.price,
     required this.idProduct,
     required this.signature,
     required this.created,
-    required this.business, 
+    required this.business,
+    required this.sync,
+    required this.async,
   });
-
 
   factory ProductModel.fromSQL(List<dynamic> row) {
     return ProductModel(
-      id: row[0],
-      categorie: row[1],
-      sousCategorie1: row[2],
-      sousCategorie2: row[3],
-      sousCategorie3: row[4],
-      sousCategorie4: row[5],
-      idProduct: row[6],
-      signature: row[7],
-      created: row[8],
-        business: row[9]
-    );
+        id: row[0],
+        service: row[1],
+        identifiant: row[2],
+        unite: row[3],
+        price: row[4],
+        idProduct: row[5],
+        signature: row[6],
+        created: row[7],
+        business: row[8],
+        sync: row[9],
+        async: row[10]);
   }
 
- 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
-      categorie: json['categorie'],
-      sousCategorie1: json['sousCategorie1'],
-      sousCategorie2: json['sousCategorie2'],
-      sousCategorie3: json['sousCategorie3'],
-      sousCategorie4: json['sousCategorie4'],
+      service: json['service'],
+      identifiant: json['identifiant'],
+      unite: json['unite'],
+      price: json['price'],
       idProduct: json['idProduct'],
       signature: json['signature'],
       created: DateTime.parse(json['created']),
-      business: json['business'], 
+      business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'categorie': categorie,
-      'sousCategorie1': sousCategorie1,
-      'sousCategorie2': sousCategorie2,
-      'sousCategorie3': sousCategorie3,
-      'sousCategorie4': sousCategorie4,
+      'service': service,
+      'identifiant': identifiant,
+      'unite': unite,
+      'price': price,
       'idProduct': idProduct,
       'signature': signature,
-      'created': created.toIso8601String() ,
-      'business': business
+      'created': created.toIso8601String(),
+      'business': business,
+      'sync': sync,
+      'async': async
     };
   }
 }

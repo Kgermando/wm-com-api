@@ -8,6 +8,8 @@ class AgendaModel {
   late String signature;
   late DateTime created;
   late String business;
+  late String sync; // new, update, sync
+  late String async;
 
   AgendaModel(
       {this.id,
@@ -16,7 +18,10 @@ class AgendaModel {
       required this.dateRappel,
       required this.signature,
       required this.created,
-      required this.business});
+      required this.business,
+    required this.sync,
+    required this.async,
+  });
 
   factory AgendaModel.fromSQL(List<dynamic> row) {
     return AgendaModel(
@@ -26,7 +31,9 @@ class AgendaModel {
         dateRappel: row[3],
         signature: row[4],
         created: row[5],
-        business: row[6]);
+        business: row[6],
+        sync: row[7],
+        async: row[8]);
   }
 
   factory AgendaModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +45,8 @@ class AgendaModel {
         signature: json['signature'],
         created: DateTime.parse(json['created']),
       business: json['business'],
+      sync: json['sync'],
+      async: json['async'],
     );
   }
 
@@ -50,6 +59,8 @@ class AgendaModel {
       'signature': signature,
       'created': created.toIso8601String(),
       'business': business,
+      'sync': sync,
+      'async': async,
     };
   }
 

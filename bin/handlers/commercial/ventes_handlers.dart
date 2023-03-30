@@ -67,6 +67,8 @@ class VenteHandlers {
           created: DateTime.parse(input['created']),
           createdAt: DateTime.parse(input['createdAt']),
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
         );
       try {
         await repos.ventes.insertData(data);
@@ -118,6 +120,12 @@ class VenteHandlers {
       }
       if (input['business'] != null) {
         data.business = input['business'];
+      }
+      if (input['sync'] != null) {
+        data.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        data.async = input['async'];
       }
       repos.ventes.update(data);
       return Response.ok(jsonEncode(data.toJson()));

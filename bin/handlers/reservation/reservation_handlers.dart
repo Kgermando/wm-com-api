@@ -4,6 +4,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
  
 import '../../models/reservation/reservation_model.dart';
+import '../../models/rh/agent_count_model.dart';
 import '../../repository/repository.dart';
 
 class ReservationHandlers {
@@ -16,6 +17,11 @@ class ReservationHandlers {
 
     router.get('/<business>/', (Request request, String business) async {
       List<ReservationModel> data = await repos.reservationRepository.getAllData(business);
+      return Response.ok(jsonEncode(data));
+    });
+
+    router.get('/chart-pie/<business>/', (Request request, String business) async {
+      List<ReservationPieChartModel> data = await repos.reservationRepository.getChartPie(business);
       return Response.ok(jsonEncode(data));
     });
  
@@ -46,6 +52,8 @@ class ReservationHandlers {
           created: DateTime.parse(input['created']),
         montant: input['montant'],
         business: input['business'],
+        sync: input['sync'],
+        async: input['async'],
       );
 
       try {
@@ -90,7 +98,7 @@ class ReservationHandlers {
         dataItem.eventName = input['eventName'];
       }
       if (input['signature'] != null) {
-        dataItem.client = input['signature'];
+        dataItem.signature = input['signature'];
       }
       if (input['created'] != null) {
         dataItem.created = DateTime.parse(input['created']);
@@ -101,6 +109,12 @@ class ReservationHandlers {
       if (input['business'] != null) {
         dataItem.business = input['business'];
       }
+      if (input['sync'] != null) {
+        dataItem.sync = input['sync'];
+      }
+      if (input['async'] != null) {
+        dataItem.async = input['async'];
+      }
 
       repos.reservationRepository.update(dataItem);
       return Response.ok(jsonEncode(dataItem.toJson()));
@@ -108,7 +122,7 @@ class ReservationHandlers {
 
     router.delete('/delete-reservation/<id>', (Request request, String id) async {
       var id = request.params['id'];
-      repos.agents.deleteData(int.parse(id!));
+      repos.tableLivraisons.deleteData(int.parse(id!));
       return Response.ok('Supprimée');
     });
 

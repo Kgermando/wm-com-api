@@ -40,3 +40,26 @@ class AgentPieChartModel {
     return {'sexe': sexe, 'count': count};
   }
 }
+
+class ReservationPieChartModel {
+  final String eventName;
+  final int count;
+
+  ReservationPieChartModel({required this.eventName, required this.count});
+
+  factory ReservationPieChartModel.fromSQL(List<dynamic> row) {
+    return ReservationPieChartModel(
+      eventName: row[0],
+      count: row[1],
+    );
+  }
+
+  factory ReservationPieChartModel.fromJson(Map<String, dynamic> json) {
+    return ReservationPieChartModel(
+        eventName: json['eventName'], count: json['eventName']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'eventName': eventName, 'count': count};
+  }
+}
