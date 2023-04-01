@@ -65,7 +65,7 @@ class SuccursaleRepository {
     // Filtre est egal à l'année et le mois actuel
     var querySQL = """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP), 
           SUM(price_total_cart::FLOAT) 
-        FROM $tableNameVente WHERE "business"='$business' AND "succursale"=$name AND 
+        FROM $tableNameVente WHERE "business"='$business' AND "succursale"='$name' AND 
         EXTRACT(MONTH FROM "created" ::TIMESTAMP) = EXTRACT(MONTH FROM CURRENT_DATE ::TIMESTAMP) AND
         EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
         GROUP BY EXTRACT(DAY FROM "created" ::TIMESTAMP) 
@@ -85,7 +85,7 @@ class SuccursaleRepository {
     // Filtre est egal à l'année actuel
     var querySQL = """SELECT EXTRACT(MONTH FROM "created" ::TIMESTAMP), 
         SUM(price_total_cart::FLOAT) 
-      FROM $tableNameVente WHERE "business"='$business' AND "succursale"=$name AND
+      FROM $tableNameVente WHERE "business"='$business' AND "succursale"='$name' AND
       EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
       GROUP BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) 
       ORDER BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) ASC;
@@ -103,7 +103,7 @@ class SuccursaleRepository {
 
     var querySQL = """SELECT EXTRACT(HOUR FROM "created" ::TIMESTAMP), 
         SUM("sum"::FLOAT) FROM $tableNameGain 
-        WHERE "business"='$business' AND "succursale"=$name AND 
+        WHERE "business"='$business' AND "succursale"='$name' AND 
         DATE("created") >= CURRENT_DATE AND 
         DATE("created") < CURRENT_DATE + INTERVAL '1 DAY'  
         GROUP BY EXTRACT(HOUR FROM "created" ::TIMESTAMP) 
@@ -121,7 +121,7 @@ class SuccursaleRepository {
     var data = <CourbeGainModel>{};
     var querySQL = """SELECT EXTRACT(DAY FROM "created" ::TIMESTAMP), 
           SUM(sum::FLOAT) 
-        FROM $tableNameGain WHERE "business"='$business' AND "succursale"=$name AND
+        FROM $tableNameGain WHERE "business"='$business' AND "succursale"='$name' AND
         EXTRACT(MONTH FROM "created" ::TIMESTAMP) = EXTRACT(MONTH FROM CURRENT_DATE ::TIMESTAMP) AND
         EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
         GROUP BY EXTRACT(DAY FROM "created" ::TIMESTAMP) 
@@ -139,7 +139,7 @@ class SuccursaleRepository {
     var data = <CourbeGainModel>{};
     var querySQL = """SELECT EXTRACT(MONTH FROM "created" ::TIMESTAMP), 
         SUM(sum::FLOAT)
-      FROM $tableNameGain WHERE "business"='$business' AND "succursale"=$name AND
+      FROM $tableNameGain WHERE "business"='$business' AND "succursale"='$name' AND
       EXTRACT(YEAR FROM "created" ::TIMESTAMP) = EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP)
       GROUP BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) 
       ORDER BY EXTRACT(MONTH FROM "created" ::TIMESTAMP) ASC;
