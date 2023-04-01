@@ -18,10 +18,15 @@ class AgentsHandlers {
     router.get('/<business>/', (Request request, String business) async {
       List<AgentModel> data = await repos.agents.getAllData(business);
       return Response.ok(jsonEncode(data));
+    }); 
+    
+    router.get('/chart-pie-sexe/<business>/', (Request request, String business) async {
+      List<AgentPieChartModel> data = await repos.agents.getAgentChartPie(business);
+      return Response.ok(jsonEncode(data));
     });
 
-    router.get('/get-count/', (Request request) async {
-      AgentCountModel data = await repos.agents.getCount();
+    router.get('/get-count/<business>/', (Request request, String business) async {
+      AgentCountModel data = await repos.agents.getCount(business);
       return Response.ok(jsonEncode(data));
     });
 
@@ -183,10 +188,6 @@ class AgentsHandlers {
     });
 
 
-    router.get('/chart-pie-sexe/', (Request request) async {
-      List<AgentPieChartModel> data = await repos.agents.getAgentChartPie();
-      return Response.ok(jsonEncode(data));
-    });
 
     router.all(
       '/<ignored|.*>',

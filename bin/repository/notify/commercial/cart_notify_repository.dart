@@ -12,7 +12,7 @@ class CartNotifyRepository {
     try {
       var data = <NotifyModel>{};
       var querySQL =
-        """SELECT COUNT(*) FROM $tableName  WHERE "business"='$business' AND  
+        """SELECT COUNT(*) FROM $tableName WHERE "business"='$business' AND  
         "signature"='$matricule';""";
       List<List<dynamic>> results = await executor.query(querySQL);
       for (var row in results) {

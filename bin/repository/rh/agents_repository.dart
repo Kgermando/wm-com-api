@@ -20,6 +20,36 @@ class AgentsRepository {
     return data.toList();
   }
 
+  Future<List<AgentPieChartModel>> getAgentChartPie(String business) async {
+    try {
+      var data = <AgentPieChartModel>{}; 
+      var querySQL =
+          "SELECT sexe, COUNT(sexe) FROM $tableName WHERE \"business\"='$business' GROUP BY \"sexe\";";
+      List<List<dynamic>> results = await executor.query(querySQL);
+      for (var row in results) {
+        data.add(AgentPieChartModel.fromSQL(row));
+      }
+      return data.toList();
+    } catch (e) {
+      throw AgentPieChartModel;
+    }
+  }
+
+  
+  Future<AgentCountModel> getCount(String business) async {
+    try {
+      var data = <AgentCountModel>{};
+      var querySQL = "SELECT COUNT(*) FROM $tableName WHERE \"business\"='$business' ;";
+      List<List<dynamic>> results = await executor.query(querySQL);
+      for (var row in results) {
+        data.add(AgentCountModel.fromSQL(row));
+      }
+      return data.single;
+    } catch (e) {
+      throw AgentCountModel;
+    }
+  }
+
   Future<void> insertData(AgentModel agentModel) async {
     await executor.transaction((ctx) async {
       await ctx.execute(
@@ -158,33 +188,6 @@ class AgentsRepository {
       );
   }
 
-  Future<AgentCountModel> getCount() async {
-    try {
-      var data = <AgentCountModel>{};
-      var querySQL = "SELECT COUNT(*) FROM $tableName;";
-      List<List<dynamic>> results = await executor.query(querySQL);
-      for (var row in results) {
-        data.add(AgentCountModel.fromSQL(row));
-      }
-      return data.single;
-    } catch (e) {
-      throw AgentCountModel;
-    }
-  }
 
-  Future<List<AgentPieChartModel>> getAgentChartPie() async {
-    try {
-      var data = <AgentPieChartModel>{};
-
-      var querySQL =
-          "SELECT sexe, COUNT(sexe) FROM $tableName GROUP BY \"sexe\";";
-      List<List<dynamic>> results = await executor.query(querySQL);
-      for (var row in results) {
-        data.add(AgentPieChartModel.fromSQL(row));
-      }
-      return data.toList();
-    } catch (e) {
-      throw AgentPieChartModel;
-    }
-  }
+  
 }
