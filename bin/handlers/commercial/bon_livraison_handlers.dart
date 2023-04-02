@@ -75,14 +75,14 @@ class BonLivraisonHandlers {
       if (input['quantityAchat'] != null) {
         data.quantityAchat = input['quantityAchat'];
       }
+      if (input['priceAchatUnit'] != null) {
+        data.priceAchatUnit = input['priceAchatUnit'];
+      }
       if (input['prixVenteUnit'] != null) {
         data.prixVenteUnit = input['prixVenteUnit'];
       }
       if (input['unite'] != null) {
         data.unite = input['unite'];
-      }
-      if (input['created'] != null) {
-        data.created = DateTime.parse(input['created']);
       }
       if (input['firstName'] != null) {
         data.firstName = input['firstName'];
