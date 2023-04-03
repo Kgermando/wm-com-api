@@ -25,9 +25,10 @@ class AchatsRepository {
       await ctx.execute(
           "INSERT INTO $tableName (id, id_product, quantity,"
           "quantity_achat, price_achat_unit, prix_vente_unit, unite, tva,"
-          "remise, qty_remise, qty_livre, succursale, signature, created, business, sync, async)"
+          "remise, qty_remise, qty_livre, succursale, signature, created,"
+          "business, sync, async)"
           "VALUES (nextval('achats_id_seq'), @1, @2, @3, @4, @5, @6,"
-          "@7, @8, @9, @10, @11, @12, @13, @14, @13, @14, @15, @16)",
+          "@7, @8, @9, @10, @11, @12, @13, @14, @15, @16)",
           substitutionValues: {
             '1': data.idProduct,
             '2': data.quantity,
@@ -54,7 +55,8 @@ class AchatsRepository {
           SET id_product = @1, quantity = @2, quantity_achat = @3,
           price_achat_unit = @4, prix_vente_unit = @5, unite = @6, tva = @7,
           remise = @8, qty_remise = @9, qty_livre = @10, succursale = @11,
-          signature = @12, created = @13, business = @14, sync = @15, async = @16 WHERE id = @17""",
+          signature = @12, created = @13, business = @14, sync = @15, 
+          async = @16 WHERE id = @17""",
         substitutionValues: {
           '1': data.idProduct,
           '2': data.quantity,
