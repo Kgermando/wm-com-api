@@ -62,10 +62,10 @@ class AchatsHandlers {
     });
 
     router.put('/update-achat/', (Request request) async {
-       dynamic input = jsonDecode(await request.readAsString());
+      dynamic input = jsonDecode(await request.readAsString());
       final editH = AchatModel.fromJson(input);
       AchatModel? data =
-          await repos.achats.getFromId(editH.id!); 
+          await repos.achats.getFromId(editH.id!);
 
       if (input['idProduct'] != null) {
         data.idProduct = input['idProduct'];
@@ -115,7 +115,12 @@ class AchatsHandlers {
       if (input['async'] != null) {
         data.async = input['async'];
       }
-      repos.achats.update(data);
+      try {
+        await repos.achats.update(data);
+      } catch (e) {
+        print(e);
+        return Response(422);
+      }
       return Response.ok(jsonEncode(data.toJson()));
     });
 
